@@ -10,4 +10,4 @@ exports.showLogo = function() {
     );
 };
 
-exports.gitPull = () => execa('git', ['pull', 'origin', 'master']);
+exports.gitPull = branch => execa('git', ['pull', 'origin', branch]);
