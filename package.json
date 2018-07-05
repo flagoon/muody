@@ -1,0 +1,33 @@
+{
+  "name": "muody",
+  "version": "0.0.1",
+  "description": "Small CLI for lazy QA",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "bin": {
+    "muody": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/pkochanek/muody.git"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "Pawel Kochanek",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/pkochanek/muody#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "execa": "^0.10.0",
+    "figlet": "^1.2.0",
+    "listr": "^0.14.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "clear": "^0.1.0",
+    "mocha": "^5.2.0"
+  }
+}
