@@ -11,3 +11,5 @@ exports.showLogo = function() {
 };
 
 exports.gitPull = branch => execa('git', ['pull', 'origin', branch]);
+
+exports.gitCheckout = branch => execa('git', ['checkout', branch]);
