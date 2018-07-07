@@ -2,20 +2,21 @@
 
 # start the project
 
--   check if it's a git repo by git status...
-    -   if it's not a git repo, throw
-    -   if there are Untracked files, throw an error
-    -   any other error, throw
-    -   if no errors, check branch name, and skip git checkout if it's the same name.
--   go to given branch, default master
-    -   uncommited changes should throw an error
-    -   branch not existing should throw an error
-    -   if everything is OK, then go to that branch
--   make git pull on that branch
-    -
+1.  git st
+2.  git co
+3.  git pull
+4.  rm dist
+5.  rm modules
+6.  npm i
+7.  npm start
+    1.  stop containers,
+    2.  rm containers
+    3.  rm images
+    4.  npm start
+8.  ?? npm run build dev
 
 # Commands
 
--   muody - check if git repo, git pull, rm dist, check if there is crud and remove it, check if components and remove it, npm i, yarn build, start docker, if error, docker stop, docker rm, docker rmi, start docker
--   muody -b branch - same, but go to existing branch, throw if it's not exisiting)
--   muody -d components -
+-   muody --start / -b branch 1,3-8 / 1-8
+-   muody --modules 4,5,6
+-   muody --docker 7.1, 7.2, 7.3
