@@ -14,20 +14,45 @@ helper.showLogo();
 
 const command = new Listr([
     {
-        title: 'Checking the branch',
+        title: 'Git pull on correct branch.',
         task: () =>
-            gitCommands
-                .gitCheckUncommited()
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => console.log(err.message)),
+            new Listr([
+                {
+                    title: 'Checkout to correct branch.',
+                    skip: () => {
+                        gitCommands.gitCheckBranchName('tvar').then(res => {
+                            console.warn(`+++${res}+++`);
+                            if (res) {
+                                return 'On correct branch';
+                            }
+                        });
+                    },
+                    task: () => {
+                        gitCommands.gitCheckUncommited().then(res => {
+                            console.warn(`---${res}---`);
+                            if (res) {
+                                throw new Error(
+                                    'There are uncommited changes!'
+                                );
+                            }
+                            return execa('git', ['checkout', 'readme'])
+                                .then(res => {
+                                    console.warn(res);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                        });
+                    },
+                },
+                {
+                    title: 'All correct!',
+                    task: () => {},
+                },
+            ]),
     },
 ]);
 
-command.run();
-
-// helper
-//     .gitCheckout(branch)
-//     .then(res => console.log(chalk.green(res.stdout)))
-//     .catch(err => console.log(chalk.white.bgRed(err.stderr)));
+command.run().catch(err => {
+    console.error(err);
+});

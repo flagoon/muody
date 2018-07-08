@@ -3,17 +3,18 @@
 # start the project
 
 1.  git st
-2.  git co
-3.  git pull
-4.  rm dist
-5.  rm modules
-6.  npm i
-7.  npm start
+2.  git fetch
+3.  git co
+4.  git pull
+5.  rm dist
+6.  rm modules
+7.  npm i
+8.  npm start
     1.  stop containers,
     2.  rm containers
     3.  rm images
     4.  npm start
-8.  ?? npm run build dev
+9.  ?? npm run build dev
 
 # Commands
 

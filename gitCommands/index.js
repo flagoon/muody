@@ -2,7 +2,7 @@ const execa = require('execa');
 
 const gitCheckBranchName = (branch = null) =>
     execa('git', ['rev-parse', '--abbrev-ref', 'HEAD']).then(res => {
-        if (res.stdout === 'tvar') {
+        if (res.stdout === branch) {
             return true;
         }
         return false;
@@ -10,11 +10,10 @@ const gitCheckBranchName = (branch = null) =>
 
 const gitCheckUncommited = () =>
     execa('git', ['status', '--porcelain']).then(res => {
-        console.log(res);
         if (res.stdout) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     });
 
 module.exports = {
