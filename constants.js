@@ -1,3 +1,3 @@
 module.exports = Object.freeze({
-    modules: ['avid-nux-pulse-components', 'avid-uir-crud'],
+    'MODULES_TO_DELETE': ['./node_modules/avid-nux-pulse-components', './node_modules/avid-uir-crud', 'dist'],
 });
