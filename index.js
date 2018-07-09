@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const argv = require('yargs').argv;
+// const argv = require('yargs').argv;
 const chalk = require('chalk');
 const execa = require('execa');
 const Listr = require('listr');
@@ -12,47 +12,38 @@ const helper = require('./helpers/helpers');
 
 helper.showLogo();
 
-const command = new Listr([
+const tasks = new Listr([
     {
         title: 'Git pull on correct branch.',
-        task: () =>
-            new Listr([
+        task: () => {
+            return new Listr([
                 {
                     title: 'Checkout to correct branch.',
-                    skip: () => {
-                        gitCommands.gitCheckBranchName('tvar').then(res => {
-                            console.warn(`+++${res}+++`);
-                            if (res) {
-                                return 'On correct branch';
-                            }
-                        });
+                    skip: async () => {
+                        const isSameBranch = await gitCommands.gitCheckBranchName('tvazr');
+                        return isSameBranch;
                     },
-                    task: () => {
-                        gitCommands.gitCheckUncommited().then(res => {
-                            console.warn(`---${res}---`);
-                            if (res) {
-                                throw new Error(
-                                    'There are uncommited changes!'
-                                );
-                            }
-                            return execa('git', ['checkout', 'readme'])
-                                .then(res => {
-                                    console.warn(res);
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                });
-                        });
-                    },
-                },
-                {
-                    title: 'All correct!',
-                    task: () => {},
-                },
-            ]),
+                    task: async () => {
+                        const isUncommitedChanges = await gitCommands.gitCheckUncommited();
+
+                        if (isUncommitedChanges === true) {
+                            throw new Error('You need to commit the changes to checkout to other branch!');
+                        }
+                        return execa('git', ['checkout', 'readme']);
+                    }
+                }
+            ]);
+        }
     },
+    {
+        title: 'Pulling from branch.',
+        task: () =>
+            execa('git', ['pull']).then(res => {
+                console.log(res.code);
+            })
+    }
 ]);
 
-command.run().catch(err => {
-    console.error(err);
+tasks.run().catch(err => {
+    console.log(chalk.white.bgRed(err.message));
 });
