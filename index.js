@@ -20,28 +20,29 @@ const tasks = new Listr([
                 {
                     title: 'Checkout to correct branch.',
                     skip: async () => {
-                        const isSameBranch = await gitCommands.gitCheckBranchName('tvazr');
+                        const isSameBranch = await gitCommands.gitCheckBranchName(
+                            'tvazr'
+                        );
                         return isSameBranch;
                     },
                     task: async () => {
                         const isUncommitedChanges = await gitCommands.gitCheckUncommited();
 
                         if (isUncommitedChanges === true) {
-                            throw new Error('You need to commit the changes to checkout to other branch!');
+                            throw new Error(
+                                'You need to commit the changes to checkout to other branch!'
+                            );
                         }
-                        return execa('git', ['checkout', 'readme']);
-                    }
-                }
+                        return gitCommands.gitCheckoutToBranch('readme');
+                    },
+                },
             ]);
-        }
+        },
     },
     {
         title: 'Pulling from branch.',
-        task: () =>
-            execa('git', ['pull']).then(res => {
-                console.log(res.code);
-            })
-    }
+        task: () => gitCommands.gitPullFromBranch('readme'),
+    },
 ]);
 
 tasks.run().catch(err => {
