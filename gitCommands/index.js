@@ -16,6 +16,8 @@ const gitCheckUncommited = () =>
         return false;
     });
 
+const gitFetchRepo = () => execa('git', ['fetch']);
+
 const gitPullFromBranch = (branch = null) =>
     execa('git', ['pull', 'origin', branch]);
 
@@ -27,4 +29,5 @@ module.exports = {
     gitCheckUncommited,
     gitPullFromBranch,
     gitCheckoutToBranch,
+    gitFetchRepo,
 };
