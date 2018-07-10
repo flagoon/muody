@@ -1,42 +1,36 @@
 #!/usr/bin/env node
-// const argv = require('yargs').argv;
 const chalk = require('chalk');
-const execa = require('execa');
 const Listr = require('listr');
 
 const gitCommands = require('./gitCommands');
 const helper = require('./helpers/helpers');
-
-// It retrieve branch name from command line.
-// const branch = gitCommands.handleBranch(argv['b']);
+const argv = require('./helpers/argv');
 
 helper.showLogo();
 
+helper.checkArguments(argv);
+
 const tasks = new Listr([
     {
-        title: 'Git pull on correct branch.',
-        task: () => {
-            return new Listr([
-                {
-                    title: 'Checkout to correct branch.',
-                    skip: async () => {
-                        const isSameBranch = await gitCommands.gitCheckBranchName(
-                            'tvazr'
-                        );
-                        return isSameBranch;
-                    },
-                    task: async () => {
-                        const isUncommitedChanges = await gitCommands.gitCheckUncommited();
+        title: 'Fetching from repo.',
+        task: () => gitCommands.gitFetchRepo(),
+    },
+    {
+        title: 'Checkout to correct branch.',
+        skip: async () => {
+            const isSameBranch = await gitCommands.gitCheckBranchName('tvar');
+            return 'Alread on correct branch.';
+        },
+        task: async () => {
+            const isUncommitedChanges = await gitCommands.gitCheckUncommited();
 
-                        if (isUncommitedChanges === true) {
-                            throw new Error(
-                                'You need to commit the changes to checkout to other branch!'
-                            );
-                        }
-                        return gitCommands.gitCheckoutToBranch('readme');
-                    },
-                },
-            ]);
+            if (isUncommitedChanges === true) {
+                throw new Error(
+                    'You need to commit the changes to checkout to other branch!'
+                );
+            }
+
+            return gitCommands.gitCheckoutToBranch('readme');
         },
     },
     {
