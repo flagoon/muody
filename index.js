@@ -9,6 +9,13 @@ const argv = require('./helpers/argv');
 helper.showLogo();
 
 helper.checkArguments(argv);
+// check if user uses correct command
+try {
+    helper.checkArguments(argv);
+} catch (error) {
+    console.log(chalk.white.bgRed(error.message));
+    process.exit();
+}
 
 const tasks = new Listr([
     {
