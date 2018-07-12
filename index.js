@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 const chalk = require('chalk');
 const Listr = require('listr');
-
 const gitCommands = require('./gitCommands');
 const helper = require('./helpers/helpers');
 const argv = require('./helpers/argv');
 
 helper.showLogo();
 
-helper.checkArguments(argv);
 // check if user uses correct command
 try {
     helper.checkArguments(argv);
@@ -26,7 +24,10 @@ const tasks = new Listr([
         title: 'Checkout to correct branch.',
         skip: async () => {
             const isSameBranch = await gitCommands.gitCheckBranchName('tvar');
-            return 'Alread on correct branch.';
+            if (isSameBranch) {
+                return 'Alread on correct branch.';
+            }
+            return false;
         },
         task: async () => {
             const isUncommitedChanges = await gitCommands.gitCheckUncommited();
