@@ -12,7 +12,14 @@ exports.showLogo = function() {
 };
 
 exports.checkArguments = arguments => {
-    console.log(arguments);
+    const { module } = arguments;
+    if (!itContainsCommand(module['_'], validCommands) > 0) {
+        throw new Error(
+            `It's missing correct commnad. Try muody -h for correct list!`
+        );
+    }
+};
+
 const itContainsCommand = (userCommands, validCommnads) => {
     let valueHit = 0;
     validCommands.forEach(command => {
