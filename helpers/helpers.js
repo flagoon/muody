@@ -20,7 +20,8 @@ exports.checkArguments = arguments => {
     }
 };
 
-const itContainsCommand = (userCommands, validCommnads) => {
+// to consider, what if user use wrong command. Throw? Ignore?
+const itContainsCommand = (userCommands, validCommands) => {
     let valueHit = 0;
     validCommands.forEach(command => {
         if (userCommands.includes(command)) {
