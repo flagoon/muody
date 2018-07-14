@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const chalk = require('chalk');
 const Listr = require('listr');
+
 const gitCommands = require('./gitCommands');
-const helper = require('./helpers/helpers');
+const moduleCommands = require('./modulesCommands').moduleCommands;
 const argv = require('./helpers/argv');
+const helper = require('./helpers/helpers');
 
 helper.showLogo();
 
@@ -15,7 +17,8 @@ try {
     process.exit();
 }
 
-const tasks = new Listr([
+// checkout to branch and pull changes
+const git = new Listr([
     {
         title: 'Fetching from repo.',
         task: () => gitCommands.gitFetchRepo(),
@@ -47,6 +50,5 @@ const tasks = new Listr([
     },
 ]);
 
-tasks.run().catch(err => {
-    console.log(chalk.white.bgRed(err.message));
-});
+// remove folders, npm install, npm build, npm start
+const modules = new Listr(moduleCommands);
