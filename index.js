@@ -4,6 +4,7 @@ const Listr = require('listr');
 
 const gitCommands = require('./gitCommands');
 const moduleCommands = require('./modulesCommands').moduleCommands;
+const dockerCommands = require('./dockerCommands/').dockerCommands;
 const argv = require('./helpers/argv');
 const helper = require('./helpers/helpers');
 
@@ -52,3 +53,6 @@ const git = new Listr([
 
 // remove folders, npm install, npm build, npm start
 const modules = new Listr(moduleCommands);
+
+// remove all Docker containers, remove all Docker images, start docker :)
+const docker = new Listr(dockerCommands);
