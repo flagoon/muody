@@ -5,18 +5,18 @@ const folders = require('../folderToDelete');
 const moduleCommands = [
     {
         title: 'Installing modules',
-        // task: () => execa('npm', ['i']),
-        task: () => execa('mkdir', ['modules1']),
+        task: () => execa('npm', ['i']),
     },
     {
         title: 'Building the package',
         // task: () => execa('npm', ['run', 'build']),
-        task: () => execa('mkdir', ['modules2']),
+        task: () =>
+            execa('mkdir', ['./node_modules/avid-nux-pulse-components']),
     },
     {
         title: 'Starting the docker',
         // task: () => execa('npm', ['start']),
-        task: () => execa('mkdir', ['modules3']),
+        task: () => execa('mkdir', ['dist']),
     },
 ];
 
