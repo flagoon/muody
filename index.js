@@ -56,3 +56,12 @@ const modules = new Listr(moduleCommands);
 
 // remove all Docker containers, remove all Docker images, start docker :)
 const docker = new Listr(dockerCommands);
+
+// check if user uses correct command
+try {
+    task = helper.checkArguments(argv);
+} catch (error) {
+    console.log(chalk.white.bgRed(error.message));
+    process.exit();
+}
+
