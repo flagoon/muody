@@ -10,6 +10,7 @@ const helper = require('./helpers/helpers');
 
 helper.showLogo();
 
+// checkout to branch and pull changes. THIS NEEDS TO BE REMADE.
 const git = new Listr([
     {
         title: 'Fetching from repo.',
@@ -56,3 +57,20 @@ try {
     process.exit();
 }
 
+switch (task) {
+    case 'libs':
+        modules.run().catch(err => console.log(err));
+        break;
+    case 'docker':
+        docker.run().catch(err => console.log(err));
+        break;
+    case 'start':
+        try {
+            git.run();
+            modules.run();
+        } catch (err) {
+            console.log(err);
+        }
+    default:
+        console.log('Something went wrong.');
+}
