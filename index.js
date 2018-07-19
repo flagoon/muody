@@ -10,15 +10,6 @@ const helper = require('./helpers/helpers');
 
 helper.showLogo();
 
-// check if user uses correct command
-try {
-    helper.checkArguments(argv);
-} catch (error) {
-    console.log(chalk.white.bgRed(error.message));
-    process.exit();
-}
-
-// checkout to branch and pull changes
 const git = new Listr([
     {
         title: 'Fetching from repo.',
