@@ -1,12 +1,5 @@
 const execa = require('execa');
 
-// name for placeholder dockers.
-// TODO: needs to be in other file.
-const mockedDockers = ['hello-world', 'alpine', 'busybox'];
-
-// comands to create dockers
-const createDockers = [];
-
 // stop all containers
 const stopAllContainers = async () => {
     const containers = await getAllIdFromDockerContainers();
@@ -66,23 +59,6 @@ const dockerCommands = [
     },
 ];
 
-// TODO: needs to be in other file!
-const createDockerTask = dockerName => {
-    return {
-        title: `Adding ${dockerName}`,
-        skip: () => false,
-        task: () => execa('docker', ['run', dockerName]),
-    };
-};
-
-// fill createDockers table with data.
-// TODO: needs to be in other file!
-mockedDockers.forEach(dockerName => {
-    const command = createDockerTask(dockerName);
-
-    createDockers.push(command);
-});
-
 // retrieve list of available docker containers.
 const getAllIdFromDockerContainers = async () => {
     const listOfContainers = await execa('docker', ['ps', '-qa']);
@@ -105,5 +81,4 @@ const getAllIdFromDockerImages = async () => {
 
 module.exports = {
     dockerCommands,
-    createDockers,
 };
