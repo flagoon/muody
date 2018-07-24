@@ -10,9 +10,10 @@ const createDockers = [];
 // stop all containers
 const stopAllContainers = async () => {
     const containers = await getAllIdFromDockerContainers();
-    await containers.forEach(container => {
-        execa('docker', ['stop', container]);
-    });
+
+    for (const container of containers) {
+        await execa('docker', ['stop', container]);
+    }
 };
 // remove all containers
 const removeAllContainers = async () => {
@@ -51,16 +52,16 @@ const dockerCommands = [
         },
         task: () => removeAllContainers(),
     },
-    {
-        title: 'Remove all images.',
-        skip: async () => {
-            const isImages = await getAllIdFromDockerImages();
-            if (isImages === null) {
-                return 'There are no images available!';
-            }
-        },
-        task: () => removeAllImages(),
-    },
+    // {
+    //     title: 'Remove all images.',
+    //     skip: async () => {
+    //         const isImages = await getAllIdFromDockerImages();
+    //         if (isImages === null) {
+    //             return 'There are no images available!';
+    //         }
+    //     },
+    //     task: () => removeAllImages(),
+    // },
 ];
 
 // TODO: needs to be in other file!
