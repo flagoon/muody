@@ -80,6 +80,26 @@ mockedDockers.forEach(dockerName => {
     createDockers.push(command);
 });
 
+// retrieve list of available docker containers.
+const getAllIdFromDockerContainers = async () => {
+    const listOfContainers = await execa('docker', ['ps', '-qa']);
+    if (listOfContainers.stdout === '') {
+        return null;
+    }
+
+    return listOfContainers.stdout.split('\n');
+};
+
+// retrieve list of available docker images.
+const getAllIdFromDockerImages = async () => {
+    const listOfImages = await execa('docker', ['images', '-qa']);
+    if (listOfImages.stdout === '') {
+        return null;
+    }
+
+    return listOfImages.stdout.split('\n');
+};
+
 module.exports = {
     dockerCommands,
     createDockers,
