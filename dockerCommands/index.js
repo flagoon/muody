@@ -18,16 +18,18 @@ const stopAllContainers = async () => {
 // remove all containers
 const removeAllContainers = async () => {
     const containers = await getAllIdFromDockerContainers();
-    containers.forEach(container => {
-        execa('docker', ['rm', container]);
-    });
+
+    for (const container of containers) {
+        await execa('docker', ['rm', container]);
+    }
 };
 // remove all images
 const removeAllImages = async () => {
     const images = await getAllIdFromDockerImages();
-    images.forEach(image => {
-        execa('docker', ['rmi', image]);
-    });
+
+    for (const image of images) {
+        await execa('docker', ['rmi', image]);
+    }
 };
 
 // TODO: skipping login needs refactor!
@@ -52,16 +54,16 @@ const dockerCommands = [
         },
         task: () => removeAllContainers(),
     },
-    // {
-    //     title: 'Remove all images.',
-    //     skip: async () => {
-    //         const isImages = await getAllIdFromDockerImages();
-    //         if (isImages === null) {
-    //             return 'There are no images available!';
-    //         }
-    //     },
-    //     task: () => removeAllImages(),
-    // },
+    {
+        title: 'Remove all images.',
+        skip: async () => {
+            const isImages = await getAllIdFromDockerImages();
+            if (isImages === null) {
+                return 'There are no images available!';
+            }
+        },
+        task: () => removeAllImages(),
+    },
 ];
 
 // TODO: needs to be in other file!
