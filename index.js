@@ -49,6 +49,8 @@ const modules = new Listr(moduleCommands);
 // remove all Docker containers, remove all Docker images, start docker :)
 const docker = new Listr(dockerCommands);
 
+const createTestDockers = new Listr(createDockers);
+
 // check if user uses correct command
 try {
     task = helper.checkArguments(argv);
@@ -71,6 +73,18 @@ switch (task) {
         } catch (err) {
             console.log(err);
         }
+    case 'cdocker':
+        createTestDockers
+            .run()
+            .then(() =>
+                console.log(
+                    chalk.black.bgGreen(
+                        `\n Placeholder docker were created. \n`
+                    )
+                )
+            )
+            .catch(err => console.log(err.message));
+        break;
     default:
         console.log('Something went wrong.');
 }
