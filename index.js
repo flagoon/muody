@@ -5,6 +5,7 @@ const Listr = require('listr');
 const gitCommands = require('./gitCommands');
 const moduleCommands = require('./modulesCommands').moduleCommands;
 const dockerCommands = require('./dockerCommands/').dockerCommands;
+const createDockers = require('./dockerCommands/').createDockers;
 const argv = require('./helpers/argv');
 const helper = require('./helpers/helpers');
 
@@ -64,7 +65,16 @@ switch (task) {
         modules.run().catch(err => console.log(err));
         break;
     case 'docker':
-        docker.run().catch(err => console.log(err));
+        docker
+            .run()
+            .then(() =>
+                console.log(
+                    chalk.black.bgGreen(
+                        `\n All containers and images are removed or didn't exists in the first place. You can pull your own images now. \n`
+                    )
+                )
+            )
+            .catch(err => console.log(err));
         break;
     case 'start':
         try {
