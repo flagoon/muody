@@ -10,7 +10,7 @@ const createDockers = [];
 // stop all containers
 const stopAllContainers = async () => {
     const containers = await getAllIdFromDockerContainers();
-    containers.forEach(container => {
+    await containers.forEach(container => {
         execa('docker', ['stop', container]);
     });
 };
@@ -56,7 +56,7 @@ const dockerCommands = [
         skip: async () => {
             const isImages = await getAllIdFromDockerImages();
             if (isImages === null) {
-                return 'There are no containers available!';
+                return 'There are no images available!';
             }
         },
         task: () => removeAllImages(),
