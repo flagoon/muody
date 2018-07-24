@@ -4,8 +4,7 @@
     "description": "Small CLI for lazy QA",
     "main": "index.js",
     "scripts": {
-        "test": "mocha",
-        "build": "node ./createFolders"
+        "test": "mocha"
     },
     "bin": {
         "muody": "./index.js"
