@@ -2,7 +2,7 @@ const clear = require('clear');
 const chalk = require('chalk');
 const figlet = require('figlet');
 
-const validCommands = ['start', 'docker', 'libs'];
+const validCommands = ['start', 'docker', 'libs', 'cdocker'];
 
 exports.showLogo = function() {
     clear();
