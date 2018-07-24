@@ -6,14 +6,60 @@ const mockedDockers = ['hello-world', 'alpine', 'busybox'];
 
 // comands to create dockers
 const createDockers = [];
+
+// stop all containers
+const stopAllContainers = async () => {
+    const containers = await getAllIdFromDockerContainers();
+    containers.forEach(container => {
+        execa('docker', ['stop', container]);
+    });
+};
+// remove all containers
+const removeAllContainers = async () => {
+    const containers = await getAllIdFromDockerContainers();
+    containers.forEach(container => {
+        execa('docker', ['rm', container]);
+    });
+};
+// remove all images
+const removeAllImages = async () => {
+    const images = await getAllIdFromDockerImages();
+    images.forEach(image => {
+        execa('docker', ['rmi', image]);
+    });
+};
+
+// TODO: skipping login needs refactor!
 const dockerCommands = [
     {
-        title: 'Removing docker containers',
-        task: () => execa('docker', ['rm', '`docker ps -qa`']),
+        title: 'Stop the containers.',
+        skip: async () => {
+            const isContainers = await getAllIdFromDockerContainers();
+            if (isContainers === null) {
+                return 'There are no containers available!';
+            }
+        },
+        task: () => stopAllContainers(),
     },
     {
-        title: 'Removing docker images',
-        task: () => execa('docker', ['rmi', '`docker images -qa`']),
+        title: 'Remove all containers.',
+        skip: async () => {
+            const isContainers = await getAllIdFromDockerContainers();
+            if (isContainers === null) {
+                return 'There are no containers available!';
+            }
+        },
+        task: () => removeAllContainers(),
+    },
+    {
+        title: 'Remove all images.',
+        skip: async () => {
+            const isImages = await getAllIdFromDockerImages();
+            if (isImages === null) {
+                return 'There are no containers available!';
+            }
+        },
+        task: () => removeAllImages(),
     },
 ];
 
