@@ -6,9 +6,9 @@ exports.module = require('yargs')
     )
     .command(
         'docker',
-        'Remove docker containers, images and starts docker again.'
+        'Stop all running containers, remove them and remove images.'
     )
-    .command('libs', 'remove node_modules and install them again.')
+    .command('libs', 'Remove node_modules and install them again.')
     .alias('b', 'branch')
     .describe('b', 'choose a branch to checkout and work on.')
     .help('h')
