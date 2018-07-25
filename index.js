@@ -4,20 +4,14 @@ const Listr = require('listr');
 
 const gitCommands = require('./gitCommands');
 const moduleCommands = require('./modulesCommands').moduleCommands;
+const dockerCommands = require('./dockerCommands/').dockerCommands;
+const createDockers = require('./dockerCommands/').createDockers;
 const argv = require('./helpers/argv');
 const helper = require('./helpers/helpers');
 
 helper.showLogo();
 
-// check if user uses correct command
-try {
-    helper.checkArguments(argv);
-} catch (error) {
-    console.log(chalk.white.bgRed(error.message));
-    process.exit();
-}
-
-// checkout to branch and pull changes
+// checkout to branch and pull changes. THIS NEEDS TO BE REMADE.
 const git = new Listr([
     {
         title: 'Fetching from repo.',
@@ -52,3 +46,64 @@ const git = new Listr([
 
 // remove folders, npm install, npm build, npm start
 const modules = new Listr(moduleCommands);
+
+// remove all Docker containers, remove all Docker images, start docker :)
+const docker = new Listr(dockerCommands);
+
+const createTestDockers = new Listr(createDockers);
+
+// check if user uses correct command
+try {
+    task = helper.checkArguments(argv);
+} catch (error) {
+    console.log(chalk.white.bgRed(error.message));
+    process.exit();
+}
+
+switch (task) {
+    case 'libs':
+        modules
+            .run()
+            .then(() =>
+                console.log(
+                    chalk.black.bgGreen(
+                        '\n All folders were removed, installed, app was build and run. \n'
+                    )
+                )
+            )
+            .catch(err => console.log(err));
+        break;
+    case 'docker':
+        docker
+            .run()
+            .then(() =>
+                console.log(
+                    chalk.black.bgGreen(
+                        `\n All containers and images are removed or didn't exists in the first place. You can pull your own images now. \n`
+                    )
+                )
+            )
+            .catch(err => console.log(err));
+        break;
+    case 'start':
+        try {
+            git.run();
+            modules.run();
+        } catch (err) {
+            console.log(err);
+        }
+    case 'cdocker':
+        createTestDockers
+            .run()
+            .then(() =>
+                console.log(
+                    chalk.black.bgGreen(
+                        `\n Placeholder docker were created. \n`
+                    )
+                )
+            )
+            .catch(err => console.log(err.message));
+        break;
+    default:
+        console.log('Something went wrong.');
+}
