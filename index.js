@@ -2,8 +2,8 @@
 const chalk = require('chalk');
 const Listr = require('listr');
 
-const moduleCommands = require('./modulesCommands').moduleCommands;
-const dockerCommands = require('./dockerCommands/').dockerCommands;
+const moduleCommands = require('./commands/libsCommands').moduleCommands;
+const dockerCommands = require('./commands/dockerCommands').dockerCommands;
 const argv = require('./helpers/argv');
 const helper = require('./helpers/helpers');
 
