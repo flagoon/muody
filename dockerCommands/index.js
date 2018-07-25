@@ -25,26 +25,19 @@ const removeAllImages = async () => {
     }
 };
 
-// TODO: skipping login needs refactor!
 const dockerCommands = [
     {
         title: 'Stop the containers.',
-        skip: async () => {
-            const isContainers = await getAllIdFromDockerContainers();
-            if (isContainers === null) {
-                return 'There are no containers available!';
-            }
-        },
-        task: () => stopAllContainers(),
+        task: (ctx, task) =>
+            stopAllContainers().catch(() => {
+                // we trying to remove containers, when there are no containers, error is thrown.
+                ctx.containersAvailable = false; // we assing 'false' to ctx object, to use it in other tests.
+                task.skip('There are no containers to stop!'); // we skipping this task, with reason.
+            }),
     },
     {
         title: 'Remove all containers.',
-        skip: async () => {
-            const isContainers = await getAllIdFromDockerContainers();
-            if (isContainers === null) {
-                return 'There are no containers available!';
-            }
-        },
+        enabled: ctx => ctx.containersAvailable !== false, // ctx.containersAvaiable is set in previous task. If it's false, then this task won't be available.
         task: () => removeAllContainers(),
     },
     {
