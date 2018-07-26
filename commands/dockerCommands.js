@@ -72,6 +72,17 @@ const getAllIdFromDockerImages = async () => {
     return listOfImages.stdout.split('\n');
 };
 
+const getRunningContainers = async () => {
+    const listOFRunningContainers = await execa('docker', ['ps', '-q']);
+    if (listOFRunningContainers.stdout === '') {
+        return null;
+    }
+
+    return listOFRunningContainers.stdout.split('\n');
+};
+
 module.exports = {
     dockerCommands,
+    getRunningContainers,
+    stopAllContainers,
 };
