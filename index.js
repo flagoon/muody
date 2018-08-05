@@ -24,17 +24,8 @@ try {
 }
 
 switch (task) {
-    case 'libs':
-        modules
-            .run()
-            .then(() =>
-                console.log(
-                    chalk.black.bgGreen(
-                        '\n All folders were removed, installed, app was build and run. \n'
-                    )
-                )
-            )
-            .catch(err => console.log(err));
+    case 'start':
+        modules.run().catch(err => console.log(err));
         break;
     case 'docker':
         docker
