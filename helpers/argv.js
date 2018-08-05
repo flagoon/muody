@@ -8,9 +8,12 @@ exports.module = require('yargs')
         'docker',
         'Stop all running containers, remove them and remove images.'
     )
-    .command('libs', 'Remove node_modules and install them again.')
-    .alias('b', 'branch')
-    .describe('b', 'choose a branch to checkout and work on.')
+    .alias('b', 'build')
+    .describe('b', 'build an app.')
+    .alias('i', 'install')
+    .describe('i', 'remove avid libs in node_modules and install them again.')
+    .alias('d', 'docker')
+    .describe('d', 'start dockers.')
     .help('h')
     .alias('h', 'help')
     .epilog('copyright flagoon 2018').argv;
