@@ -1,16 +1,9 @@
 exports.module = require('yargs')
     .usage('Usage: $0 <command> [options]')
-    .command(
-        'start',
-        'Makes sure that application is updated, built and run correctly.'
-    )
-    .command(
-        'docker',
-        'Stop all running containers, remove them and remove images.'
-    )
-    .command('libs', 'Remove node_modules and install them again.')
-    .alias('b', 'branch')
-    .describe('b', 'choose a branch to checkout and work on.')
+    .describe('b', 'npm run build')
+    .describe('d', 'stop all dockers, then remove all containers')
+    .describe('i', 'install libraries from package.json')
+    .describe('x', 'remove all docker containers and images')
     .help('h')
     .alias('h', 'help')
     .epilog('copyright flagoon 2018').argv;
