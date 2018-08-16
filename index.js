@@ -12,10 +12,8 @@ helper.showLogo();
 // remove folders, npm install, npm build, npm start
 const modules = new Listr(moduleCommands);
 
-// remove all Docker containers, remove all Docker images, start docker :)
-const docker = new Listr(dockerCommands);
-
 // check if user uses correct command
+
 try {
     task = helper.checkArguments(argv);
 } catch (error) {
@@ -23,31 +21,15 @@ try {
     process.exit();
 }
 
-switch (task) {
-    case 'libs':
-        modules
-            .run()
-            .then(() =>
-                console.log(
-                    chalk.black.bgGreen(
-                        '\n All folders were removed, installed, app was build and run. \n'
-                    )
-                )
+console.log(task);
+
+modules
+    .run()
+    .then(() =>
+        console.log(
+            chalk.black.bgGreen(
+                '\n All folders were removed, installed, app was build and run. \n'
             )
-            .catch(err => console.log(err));
-        break;
-    case 'docker':
-        docker
-            .run()
-            .then(() =>
-                console.log(
-                    chalk.black.bgGreen(
-                        `\n All containers and images are removed or didn't exists in the first place. You can pull your own images now. \n`
-                    )
-                )
-            )
-            .catch(err => console.log(err));
-        break;
-    default:
-        console.log('Something went wrong.');
-}
+        )
+    )
+    .catch(err => console.log(err));
