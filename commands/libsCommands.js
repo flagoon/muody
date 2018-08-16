@@ -3,6 +3,7 @@ const execa = require('execa');
 const Listr = require('listr');
 const getRunningContainers = require('./dockerCommands').getRunningContainers;
 const stopContainers = require('./dockerCommands').stopAllContainers;
+const dockerCommands = require('./dockerCommands').dockerCommands;
 
 const folders = require('../config');
 
@@ -10,6 +11,7 @@ const enabledCommands = {
     install: argv.module['i'],
     docker: argv.module['d'],
     build: argv.module['b'],
+    exterminate: argv.module['x'],
 };
 
 const moduleCommands = [
@@ -20,6 +22,11 @@ const moduleCommands = [
             ctx.removeDist = true;
             await execa('npm', ['i']);
         },
+    },
+    {
+        title: 'Purge the docker',
+        enabled: () => enabledCommands.exterminate,
+        task: () => new Listr(dockerCommands),
     },
     {
         title: 'Stop running containers',
