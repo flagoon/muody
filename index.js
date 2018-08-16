@@ -3,7 +3,6 @@ const chalk = require('chalk');
 const Listr = require('listr');
 
 const moduleCommands = require('./commands/libsCommands').moduleCommands;
-const dockerCommands = require('./commands/dockerCommands').dockerCommands;
 const argv = require('./helpers/argv');
 const helper = require('./helpers/helpers');
 
@@ -15,13 +14,11 @@ const modules = new Listr(moduleCommands);
 // check if user uses correct command
 
 try {
-    task = helper.checkArguments(argv);
+    helper.checkArguments(argv);
 } catch (error) {
     console.log(chalk.white.bgRed(error.message));
     process.exit();
 }
-
-console.log(task);
 
 modules
     .run()
