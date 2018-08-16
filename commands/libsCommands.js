@@ -59,7 +59,7 @@ const moduleCommands = [
                     task: async ctx => {
                         ctx.removeDist = false;
                         await execa('npm', ['run', 'build']);
-                    }, //,
+                    },
                 },
             ]),
     },
