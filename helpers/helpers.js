@@ -37,6 +37,4 @@ exports.checkArguments = arguments => {
             `You are missing valid arguments, try muody -h for more info.`
         );
     }
-
-    return commands;
 };
