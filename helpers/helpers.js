@@ -2,7 +2,7 @@ const clear = require('clear');
 const chalk = require('chalk');
 const figlet = require('figlet');
 
-const validCommands = ['docker', 'libs'];
+const validCommands = ['d', 'i', 'b', 'x'];
 
 exports.showLogo = function() {
     clear();
@@ -13,25 +13,30 @@ exports.showLogo = function() {
 
 exports.checkArguments = arguments => {
     const { module } = arguments;
+    const commands = [];
 
     // check if user put invalid arguments
-    if (!module['_'].every(argv => validCommands.includes(argv))) {
+
+    // module['_'] constains commands, then it's module['d'], module['b']
+    if (module['_'].length) {
         throw new Error(
             `You used commands that I don't know about. Try muody -h for correct list!`
         );
     }
 
-    // check number of arguments
-    switch (module['_'].length) {
-        case 0:
-            throw new Error(`You are missing some arguments.`);
-        case 1:
-            break;
-        default:
-            throw new Error(
-                `As for now "muody-cli" doesn't support multiple arguments.`
-            );
+    const commandArray = Array.from(Object.keys(module));
+
+    commandArray.forEach(command => {
+        if (validCommands.indexOf(command) > -1) {
+            commands.push(command);
+        }
+    });
+
+    if (commands.length === 0) {
+        throw new Error(
+            `You are missing valid arguments, try muody -h for more info.`
+        );
     }
 
-    return module['_'][0];
+    return commands;
 };
